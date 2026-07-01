@@ -12,7 +12,7 @@ ports:
   8000/tcp: 8081
 ports_description:
   8000/tcp: Web UI (http://<ha-host>:8081)
-webui: "http://[HOST]:[PORT:8000/tcp]"
+webui: "http://[HOST]:[PORT:8000]"
 map:
   - type: addon_config
     read_only: false
