@@ -18,10 +18,6 @@ on:
 
 env:
   ARCHITECTURES: '["amd64", "aarch64"]'
-  # Bare image name only — the builder composes the final reference as
-  # <registry-prefix>/<arch>-<image-name>. registry-prefix must be lowercase
-  # (GHCR rejects uppercase), so it is set explicitly rather than defaulting
-  # to the mixed-case repository owner.
   IMAGE_NAME: cataloguecanvas-homeassistant
   REGISTRY_PREFIX: ghcr.io/cataloguecanvas
   BUILD_CONTEXT: ./cataloguecanvas
@@ -70,12 +66,13 @@ jobs:
         with:
           arch: ${{ matrix.arch }}
           context: ${{ env.BUILD_CONTEXT }}
+          build-args: |
+            BUILD_FROM=ghcr.io/cataloguecanvas/cataloguecanvas:latest
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
           image: ${{ matrix.image }}
           image-tags: |
             ${{ needs.init.outputs.version }}
             latest
-          # Publish only on push to main; PRs build without pushing.
           push: ${{ github.event_name != 'pull_request' }}
           version: ${{ needs.init.outputs.version }}
 
