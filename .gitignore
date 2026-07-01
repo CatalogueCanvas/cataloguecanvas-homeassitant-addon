@@ -1,0 +1,19 @@
+# Status
+CLAUDE.md
+CLAUDE-*.md
+.claude/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Env / secrets
+.env
+.env.*
+!.env.example
