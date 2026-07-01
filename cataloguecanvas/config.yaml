@@ -1,7 +1,8 @@
 name: CatalogueCanvas
 version: "0.1.0"
 slug: cataloguecanvas
-description: Self-hosted digital asset manager (FastAPI + React SPA) for organising artwork, generative code and design assets
+image: ghcr.io/cataloguecanvas/cataloguecanvas-homeassistant-{arch}
+description: Organise your artwork, designs and creative files into catalogues and portfolios
 url: https://github.com/CatalogueCanvas/CatalogueCanvas
 arch:
   - amd64
