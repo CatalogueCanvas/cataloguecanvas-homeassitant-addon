@@ -9,6 +9,7 @@ arch:
   - aarch64
 startup: services
 init: false
+apparmor: false
 ports:
   8000/tcp: 8081
 ports_description:
