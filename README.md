@@ -1,6 +1,6 @@
 # CatalogueCanvas Home Assistant Add-on
 
-![CatalogueCanvas](logo.png)
+<img src="cataloguecanvas/logo.png" align="right" width=150/>
 
 [![GitHub Release](https://img.shields.io/github/v/release/CatalogueCanvas/cataloguecanvas-homeassistant-addon)](https://github.com/CatalogueCanvas/cataloguecanvas-homeassistant-addon/releases)
 [![License](https://img.shields.io/github/license/CatalogueCanvas/cataloguecanvas-homeassistant-addon)](LICENSE)
