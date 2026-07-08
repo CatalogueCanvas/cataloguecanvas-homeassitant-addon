@@ -2,7 +2,7 @@
 
 <img src="cataloguecanvas/logo.png" align="right" width=150/>
 
-[![GitHub Release](https://img.shields.io/github/v/release/CatalogueCanvas/cataloguecanvas-homeassistant-addon)](https://github.com/CatalogueCanvas/cataloguecanvas-homeassistant-addon/releases)
+[![Version](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2FCatalogueCanvas%2Fcataloguecanvas-homeassistant-addon%2Fmain%2Fcataloguecanvas%2Fconfig.yaml&query=%24.version&label=version)](https://github.com/CatalogueCanvas/cataloguecanvas-homeassistant-addon)
 [![License](https://img.shields.io/github/license/CatalogueCanvas/cataloguecanvas-homeassistant-addon)](LICENSE)
 [![GitHub Issues](https://img.shields.io/github/issues/CatalogueCanvas/cataloguecanvas-homeassistant-addon)](https://github.com/CatalogueCanvas/cataloguecanvas-homeassistant-addon/issues)
 
