@@ -54,6 +54,49 @@ jobs:
         run: |
           yq -i '.version = "${{ steps.version.outputs.new_version }}"' cataloguecanvas/config.yaml
 
+      - name: Update CHANGELOG.md
+        if: steps.version.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APP_VERSION: ${{ steps.version.outputs.app_version }}
+          NEW_VERSION: ${{ steps.version.outputs.new_version }}
+        run: |
+          changelog=cataloguecanvas/CHANGELOG.md
+          upstream=$(mktemp)
+          body=$(mktemp)
+          entry=$(mktemp)
+
+          if ! gh api "repos/CatalogueCanvas/CatalogueCanvas/contents/CHANGELOG.md?ref=v${APP_VERSION}" \
+              --jq .content 2>/dev/null | base64 -d > "${upstream}" 2>/dev/null; then
+            : > "${upstream}"
+          fi
+
+          awk -v v="${APP_VERSION}" \
+            'index($0, "## [" v "]") == 1 { f = 1; next } /^## / { f = 0 } f' \
+            "${upstream}" > "${body}"
+
+          if ! grep -q '[^[:space:]]' "${body}"; then
+            echo "::warning::No upstream changelog section found for v${APP_VERSION}, writing stub entry"
+            {
+              echo
+              echo "### Changed"
+              echo "- Updated bundled CatalogueCanvas to [v${APP_VERSION}](https://github.com/CatalogueCanvas/CatalogueCanvas/blob/v${APP_VERSION}/CHANGELOG.md)."
+            } > "${body}"
+          fi
+
+          {
+            echo "## ${NEW_VERSION}"
+            echo
+            echo "Tracks upstream CatalogueCanvas [v${APP_VERSION}](https://github.com/CatalogueCanvas/CatalogueCanvas/blob/v${APP_VERSION}/CHANGELOG.md)."
+            cat "${body}"
+          } > "${entry}"
+
+          # Insert the new entry directly above the current top-most "## " section.
+          awk -v entry="${entry}" \
+            '!done && /^## / { while ((getline line < entry) > 0) print line; done = 1 } { print }' \
+            "${changelog}" > "${changelog}.new"
+          mv "${changelog}.new" "${changelog}"
+
       - name: Open pull request
         if: steps.version.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7
@@ -68,4 +111,6 @@ jobs:
             `${{ steps.version.outputs.new_version }}`, resetting the add-on
             build counter to 1 for the new app version.
           branch: bump-cc-v${{ steps.version.outputs.app_version }}
-          add-paths: cataloguecanvas/config.yaml
+          add-paths: |
+            cataloguecanvas/config.yaml
+            cataloguecanvas/CHANGELOG.md
